@@ -1,0 +1,1256 @@
+alias: Plex Video Stream
+description: ""
+triggers:
+  - trigger: conversation
+    command:
+      - (start|play) [the] movie {movie} on the {mediaplayer}
+      - (start|play) [the] movie {movie} in the {mediaplayer}
+    id: streammovie
+  - trigger: conversation
+    command:
+      - >-
+        (start|play) [the] (tv show|show|series) {show} (on|in) the
+        {mediaplayer}
+    id: streamunwatched
+  - trigger: conversation
+    command:
+      - >-
+        (start|play) Season {season} Episode {episode} of {show} (on|in) the
+        {mediaplayer}
+      - >-
+        (start|play) Episode {episode} Season {season} of {show} (on|in) the
+        {mediaplayer}
+    id: streamspecificepisode
+  - trigger: conversation
+    command:
+      - >-
+        (start|play) [a] Random (episode|episodes) of {show} (on|in) the
+        {mediaplayer}
+    id: streamrandomepisode
+  - trigger: conversation
+    command:
+      - >-
+        (start|play) [a] Random (episode|episodes) from Season {season} of
+        {show} (on|in) the {mediaplayer}
+      - >-
+        (start|play) [a] Random Season {season} (episode|episodes) of {show}
+        (on|in) the {mediaplayer}
+    id: streamrandomseason
+  - trigger: conversation
+    command: >-
+      (start|play) [the] {playlist} (playlist|play list|playless|play less)
+      (on|in) the {mediaplayer}
+    id: streamplaylist
+  - trigger: conversation
+    command:
+      - stop the {mediaplayer}
+    id: media-stop
+  - trigger: conversation
+    command:
+      - pause the {mediaplayer}
+    id: media-pause
+  - trigger: conversation
+    command:
+      - resume the {mediaplayer}
+    id: media-start
+    enabled: true
+  - trigger: conversation
+    command:
+      - (start|play) my current show (on|in) the {mediaplayer}
+      - (start|play) my current binge (on|in) the {mediaplayer}
+      - (start|play) my current binge show (on|in) the {mediaplayer}
+      - (start|play) my background noise (on|in) the {mediaplayer}
+      - (start|play) my bedtime show (on|in) the {mediaplayer}
+      - (start|play) my sleep show (on|in) the {mediaplayer}
+    id: streamcurrentbinge
+  - trigger: conversation
+    command: stop the alarm
+    id: stopalarm
+  - trigger: conversation
+    command: (start|play) [the] movie {movie}
+    id: streammovienoplayer
+  - trigger: conversation
+    command: (start|play) [the] (tv show|show|series) {show}
+    id: streamunwatchednoplayer
+  - trigger: conversation
+    command:
+      - (start|play) Season {season} Episode {episode} of {show}
+      - (start|play) Episode {episode} Season {season} of {show}
+    id: streamspecificepisodenoplayer
+  - trigger: conversation
+    command: (start|play) [a] Random (episode|episodes) of {show}
+    id: streamrandomepisodenoplayer
+  - trigger: conversation
+    command:
+      - >-
+        (start|play) [a] Random (episode|episodes) from Season {season} of
+        {show}
+      - (start|play) [a] Random Season {season} (episode|episodes) of {show}
+    id: streamrandomseasonnoplayer
+  - trigger: conversation
+    command:
+      - (start|play) [the] {playlist} (playlist|play list|playless|play less)
+    id: streamplaylistnoplayer
+  - trigger: conversation
+    command:
+      - (start|play) my current show
+      - (start|play) my current binge
+      - (start|play) my current binge show
+      - (start|play) my background noise
+      - (start|play) my bedtime show
+      - (start|play) my sleep show
+    id: streamcurrentbingenoplayer
+conditions: []
+actions:
+  - variables:
+      area: "{{ area_id(trigger.device_id) }}"
+      title: "{{ trigger.slots.show }}"
+      movietitle: "{{ trigger.slots.movie }}"
+      show: >-
+        {% if trigger.slots.show == 'future rama' or trigger.slots.show ==
+        'future on my' or trigger.slots.show == 'future on a' or
+        trigger.slots.show == 'futurella'%}
+          futurama
+        {% elif trigger.slots.show == 'king of the hell' %}
+          king of the hill
+        {% elif trigger.slots.show == 'last week tonight' %}
+          Last Week Tonight with John Oliver
+        {% elif trigger.slots.show == 'third rock from the sun' %}
+          3rd Rock from the Sun
+        {% elif trigger.slots.show == 'big old house of fun' %}
+          Aunty Donnas Big Ol House of Fun
+        {% elif trigger.slots.show == 'coffee cafe' %}
+          Aunty Donnas Coffee Cafe
+        {% elif trigger.slots.show == 'avatar' or trigger.slots.show == 'last
+        airbender' or trigger.slots.show == 'the last airbender' %}
+          Avatar The Last Airbender
+        {% elif trigger.slots.show == 'clone high 2023' %}
+          Clone High (2023)
+        {% elif trigger.slots.show == 'full metal alchemist' %}
+          Fullmetal Alchemist
+        {% elif trigger.slots.show == 'full metal alchemist brotherhood' %}
+          Fullmetal Alchemist Brotherhood
+        {% elif trigger.slots.show == 'i think you should leave' %}
+          I Think You Should Leave with Tim Robinson
+        {% elif trigger.slots.show == 'korra' or trigger.slots.show == 'the
+        legend of korra'%}
+          Legend of Korra
+        {% elif trigger.slots.show == 'rings of power'%}
+          Lord of the Rings The Rings of Power
+        {% elif trigger.slots.show == 'mash'%}
+          M*A*S*H
+        {% elif trigger.slots.show == 'agents of shield' or trigger.slots.show
+        == 'Agents of Shield'%}
+          Marvels Agents of S.H.I.E.L.D.
+        {% elif trigger.slots.show == 'pokemon'%}
+          Pokémon
+        {% elif trigger.slots.show == 'rebels'%}
+          Star Wars Rebels
+        {% elif trigger.slots.show == 'tales of the jed'%}
+          Star Wars Tales of the Jedi
+        {% elif trigger.slots.show == 'the bad batch' or trigger.slots.show ==
+        'bad batch' %}
+          Star Wars The Bad Batch
+        {% elif trigger.slots.show == 'the clone wars' or trigger.slots.show ==
+        'clone wars' %}
+          Star Wars The Clone Wars
+        {% elif trigger.slots.show == 'skeleton crew' or trigger.slots.show ==
+        'the skeleton crew' %}
+          Star Wars Skeleton Crew
+        {% elif trigger.slots.show == 'visions'%}
+          Star Wars Visions
+        {% elif trigger.slots.show == 'the office' or trigger.slots.show ==
+        'office'%}
+          The Office (US)
+        {% elif trigger.slots.show == 'the twilight zone'%}
+          The Twilight Zone
+        {% elif trigger.slots.show == 'the twilight zone 1985'%}
+          The Twilight Zone (1985)
+        {% elif trigger.slots.show == 'the twilight zone 2002'%}
+          The Twilight Zone (2002)
+        {% elif trigger.slots.show == 'the twilight zone 2019'%}
+          The Twilight Zone (2019)
+        {% elif trigger.slots.show == 'its always sunny' or trigger.slots.show
+        == 'always sunny' or trigger.slots.show == 'always philly'%}
+          Its Always Sunny in Philadelphia
+        {% elif trigger.slots.show == 'rick & morty'%}
+          Rick and Morty
+        {% elif trigger.slots.show == 'captain laserhawk' or trigger.slots.show
+        == 'blood dragon'%}
+          Captain Laserhawk A Blood Dragon Remix
+        {% elif trigger.slots.show == 'one piece 2023' or trigger.slots.show ==
+        'one piece live action'%}
+          ONE PIECE (2023)
+        {% elif trigger.slots.show == 'avatar 2024' or trigger.slots.show ==
+        'avatar live action' or trigger.slots.show == 'last airbender 2024'or
+        trigger.slots.show == 'last airbender live action'or trigger.slots.show
+        == 'the last airbender 2024'or trigger.slots.show == 'the last airbender
+        live action'%}
+          Avatar The Last Airbender (2024)
+        {% elif trigger.slots.show == 'kite man'%}
+          Kite Man Hell Yeah!
+        {% elif trigger.slots.show == 'tales of the turtles'%}
+          Tales of the Teenage Mutant Ninja Turtles
+        {% elif trigger.slots.show == 'flapjack'%}
+          The Marvelous Misadventures of Flapjack
+        {% else %}
+          {{ title }}
+        {% endif %}
+      movie: >-
+        {% if trigger.slots.movie == 'captain america'%}
+          captain america the first avenger
+        {% elif trigger.slots.movie == 'clerks 2' or trigger.slots.movie ==
+        'clerks two'or trigger.slots.movie == 'clerks too'%}
+          clerks II
+        {% elif trigger.slots.movie == 'clerks 3' or trigger.slots.movie ==
+        'clerks three'%}
+          clerks III
+        {% elif trigger.slots.movie == 'back to the future 2' or
+        trigger.slots.movie == 'back to the future part 2'%}
+          Back to the Future Part II
+        {% elif trigger.slots.movie == 'back to the future 3' or
+        trigger.slots.movie == 'back to the future part 3'%}
+          Back to the Future Part III
+        {% elif trigger.slots.movie == 'boondock saints 2' or
+        trigger.slots.movie == 'the boondock saints 2'%}
+          The Boondock Saints II All Saints Day
+        {% elif trigger.slots.movie == 'inglourious bastards' or
+        trigger.slots.movie == 'inglorious bastards'%}
+          Inglourious Basterds
+        {% elif trigger.slots.movie == 'pick of destiny' or trigger.slots.movie
+        == 'tenacious d and the pick of destiny'or trigger.slots.movie ==
+        'tenacious d & the pick of destiny'%}
+          Tenacious D in the Pick of Destiny
+        {% elif trigger.slots.movie == 'walk hard' or trigger.slots.movie ==
+        'dewey cox' or trigger.slots.movie == 'dewey cocks' or
+        trigger.slots.movie == 'the dewey cox story' or trigger.slots.movie ==
+        'the dewey cocks story'%}
+          Walk Hard The Dewey Cox Story
+        {% elif trigger.slots.movie == 'lion king 1 and a half' or
+        trigger.slots.movie == 'lion king one and a half'%}
+          The Lion King 1½
+        {% elif trigger.slots.movie == 'south park' or trigger.slots.movie ==
+        'south park bigger longer and uncut'%}
+          South Park Bigger, Longer & Uncut
+        {% elif trigger.slots.movie == 'crow remake' or trigger.slots.movie ==
+        'the crow remake' or trigger.slots.movie == 'the crow 2024'or
+        trigger.slots.movie == 'crow 2024'%}
+          The Crow (2024)
+        {% else %}
+          {{ movietitle }}
+        {% endif %}
+      playlist: >-
+        {% if trigger.slots.playlist == 'family guy' or trigger.slots.playlist
+        == 'Family Guy' or trigger.slots.playlist == 'Family Guide' or
+        trigger.slots.playlist == 'family guide'%}
+          1643602
+        {% elif trigger.slots.playlist == 'futurama' or trigger.slots.playlist
+        == 'future rama' or trigger.slots.playlist == 'future on a' or
+        trigger.slots.playlist == 'future on my'%}
+          1643600
+        {% elif trigger.slots.playlist == 'South Park' or trigger.slots.playlist
+        == 'future rama' or trigger.slots.playlist == 'south park' or
+        trigger.slots.playlist == 'south Park'or trigger.slots.playlist ==
+        'South park'%}
+          1849686
+        {% elif trigger.slots.playlist == 'american dad' %}
+          1643601
+        {% elif trigger.slots.playlist == 'simpsons' or trigger.slots.playlist
+        == 'the simpsons' or trigger.slots.playlist == 'Simpsons' or
+        trigger.slots.playlist == 'the Simpsons' or trigger.slots.playlist ==
+        'The Simpsons'%}
+          1643599
+        {% elif trigger.slots.playlist == 'king of the hill' or
+        trigger.slots.playlist == 'king of the hell' %}
+          1836793
+        {% elif trigger.slots.playlist == 'i think you should leave' or
+        trigger.slots.playlist == 'i think you should leave with tim robinson'
+        %}
+          1643603
+        {% else %}
+          {{ trigger.slots.playlist }}
+        {% endif %}
+      mediaplayer: >-
+        {% if trigger.slots.mediaplayer == 'desktop' or
+        trigger.slots.mediaplayer == 'top screen' or trigger.slots.mediaplayer
+        == 'gaming rig' %}
+          media_player.plex_desktop
+        {% elif trigger.slots.mediaplayer == 'bedroom tv' or
+        trigger.slots.mediaplayer == 'bedroom' or trigger.slots.mediaplayer ==
+        'bedroom TV'%}
+          media_player.bedroom_tv_uni
+        {% elif trigger.slots.mediaplayer == 'roku' or trigger.slots.mediaplayer
+        == 'roku tv' or trigger.slots.mediaplayer == 'downstairs' or
+        trigger.slots.mediaplayer == 'downstairs tv' or
+        trigger.slots.mediaplayer == 'basement tv' or trigger.slots.mediaplayer
+        == 'basement' or trigger.slots.mediaplayer == 'roku TV' or
+        trigger.slots.mediaplayer == 'Roku TV' or trigger.slots.mediaplayer ==
+        'downstairs TV' or trigger.slots.mediaplayer == 'basement TV' %}
+          media_player.plex_for_roku_tv
+        {% elif trigger.slots.mediaplayer == 'upstairs tv' or
+        trigger.slots.mediaplayer == 'upstairs' or trigger.slots.mediaplayer ==
+        'living room' or trigger.slots.mediaplayer == 'living room tv' or
+        trigger.slots.mediaplayer == 'living room TV' or
+        trigger.slots.mediaplayer == 'upstairs TV' %}
+          media_player.upstairs_tv
+        {% elif trigger.slots.mediaplayer == 'xbox' %}
+          media_player.plex_for_xbox
+        {% else %}
+          media_player.bedroom_tv_uni
+        {% endif %}
+      mediaplayercontrol: >-
+        {% if trigger.slots.mediaplayer == 'desktop' or
+        trigger.slots.mediaplayer == 'top screen' or trigger.slots.mediaplayer
+        == 'gaming rig' %}
+          media_player.desktop
+        {% elif trigger.slots.mediaplayer == 'bedroom tv' or
+        trigger.slots.mediaplayer == 'bedroom'  or trigger.slots.mediaplayer ==
+        'bedroom TV'%}
+          media_player.jukebox
+        {% elif trigger.slots.mediaplayer == 'roku' or trigger.slots.mediaplayer
+        == 'roku tv' or trigger.slots.mediaplayer == 'downstairs' or
+        trigger.slots.mediaplayer == 'downstairs tv' or
+        trigger.slots.mediaplayer == 'basement tv' or trigger.slots.mediaplayer
+        == 'basement' or trigger.slots.mediaplayer == 'roku TV' or
+        trigger.slots.mediaplayer == 'Roku TV' or trigger.slots.mediaplayer ==
+        'downstairs TV' or trigger.slots.mediaplayer == 'basement TV' %}
+          media_player.roku_tv
+        {% elif trigger.slots.mediaplayer == 'upstairs tv' or
+        trigger.slots.mediaplayer == 'upstairs' or trigger.slots.mediaplayer ==
+        'living room' or trigger.slots.mediaplayer == 'living room tv' or
+        trigger.slots.mediaplayer == 'living room TV' or
+        trigger.slots.mediaplayer == 'upstairs TV' %}
+          media_player.samsung_tv
+        {% elif trigger.slots.mediaplayer == 'xbox' %}
+          media_player.xbox
+        {% else %}
+          media_player.jukebox
+        {% endif %}
+    alias: >-
+      Variable Definitions to customize Show and Movie titles and define devices
+      to use.
+  - choose:
+      - conditions:
+          - condition: trigger
+            id:
+              - streamspecificepisode
+        sequence:
+          - target:
+              entity_id: button.the_archive_scan_clients
+            data: {}
+            action: button.press
+          - target:
+              entity_id: "{{ mediaplayer }}"
+            data:
+              media_content_type: tvshow
+              media_content_id: >-
+                plex://{"library_name": "TV", "show.title": "{{ show }}",
+                "season_number": "{{ trigger.slots.season }}", "episode_number":
+                "{{ trigger.slots.episode }}" }
+            action: media_player.play_media
+          - set_conversation_response: >-
+              Now playing Season {{ trigger.slots.season }} Episode {{
+              trigger.slots.episode }} of {{ show }} on the {{
+              trigger.slots.mediaplayer }}.
+      - conditions:
+          - condition: trigger
+            id:
+              - streamrandomepisode
+        sequence:
+          - target:
+              entity_id: button.the_archive_scan_clients
+            data: {}
+            action: button.press
+          - target:
+              entity_id: "{{ mediaplayer }}"
+            data:
+              media_content_type: tvshow
+              media_content_id: >-
+                plex://{"library_name": "TV", "show.title": "{{ show }}",
+                "shuffle": "1", "allow_multiple": 1 }
+            action: media_player.play_media
+          - set_conversation_response: >-
+              Now playing a random episode of {{ show }} on the {{
+              trigger.slots.mediaplayer }}.
+      - conditions:
+          - condition: trigger
+            id:
+              - streamrandomseason
+        sequence:
+          - target:
+              entity_id: button.the_archive_scan_clients
+            data: {}
+            action: button.press
+          - target:
+              entity_id: "{{ mediaplayer }}"
+            data:
+              media_content_type: tvshow
+              media_content_id: >-
+                plex://{"library_name": "TV", "show.title": "{{ show }}",
+                "season_number": "{{ trigger.slots.season }}", "shuffle": "1",
+                "allow_multiple": 1 }
+            action: media_player.play_media
+          - set_conversation_response: >-
+              Now playing a random Season {{ trigger.slots.season }} episode of
+              {{ show }} on the {{ trigger.slots.mediaplayer }}.
+      - conditions:
+          - condition: trigger
+            id:
+              - streammovie
+        sequence:
+          - target:
+              entity_id: button.the_archive_scan_clients
+            data: {}
+            action: button.press
+          - target:
+              entity_id: "{{ mediaplayer }}"
+            data:
+              media_content_type: movie
+              media_content_id: "plex://{\"library_name\": \"Movies\", \"title\": \"{{ movie }}\" }"
+            action: media_player.play_media
+          - set_conversation_response: Now playing {{ movie }} on the {{ trigger.slots.mediaplayer }}.
+      - conditions:
+          - condition: trigger
+            id:
+              - streamplaylist
+        sequence:
+          - target:
+              entity_id: button.the_archive_scan_clients
+            data: {}
+            action: button.press
+          - target:
+              entity_id: "{{ mediaplayer }}"
+            data:
+              media_content_type: playlist
+              media_content_id: >-
+                plex://*Add Server ID Here*/{{ playlist
+                }}?resume=0&shuffle=1
+            action: media_player.play_media
+          - set_conversation_response: >-
+              Now playing the {{ trigger.slots.playlist }} playlist on the {{
+              trigger.slots.mediaplayer }}.
+      - conditions:
+          - condition: trigger
+            id:
+              - streamcurrentbinge
+        sequence:
+          - target:
+              entity_id: button.the_archive_scan_clients
+            data: {}
+            action: button.press
+          - target:
+              entity_id: "{{ mediaplayer }}"
+            data:
+              media_content_type: playlist
+              media_content_id: plex://*Add Server ID Here*/1643426
+            action: media_player.play_media
+          - set_conversation_response: Enjoy your show on the {{ trigger.slots.mediaplayer }}
+      - conditions:
+          - condition: trigger
+            id:
+              - stopalarm
+        sequence:
+          - action: script.turn_on
+            metadata: {}
+            data: {}
+            target:
+              entity_id: script.bedroom_stop_alarm
+          - set_conversation_response: "Stopping the alarm now. "
+      - conditions:
+          - condition: trigger
+            id:
+              - streamunwatched
+        sequence:
+          - choose:
+              - conditions:
+                  - condition: template
+                    value_template: >-
+                      {{ trigger.slots.mediaplayer == 'upstairs tv' or
+                      trigger.slots.mediaplayer == 'upstairs' or
+                      trigger.slots.mediaplayer == 'living room' or
+                      trigger.slots.mediaplayer == 'living room tv' or
+                      trigger.slots.mediaplayer == 'living room TV' or
+                      trigger.slots.mediaplayer == 'upstairs TV' }}
+                sequence:
+                  - action: button.press
+                    metadata: {}
+                    data: {}
+                    target:
+                      entity_id: button.the_archive_scan_clients
+                    enabled: true
+                  - action: media_player.play_media
+                    continue_on_error: true
+                    metadata: {}
+                    data:
+                      media_content_type: tvshow
+                      media_content_id: >-
+                        plex://{"library_name": "TV", "show.title": "{{ show
+                        }}", "episode.unwatched": true, "allow_multiple": 1 }
+                    target:
+                      entity_id: media_player.upstairs_tv
+                  - delay:
+                      hours: 0
+                      minutes: 0
+                      seconds: 12
+                      milliseconds: 0
+                  - if:
+                      - condition: template
+                        value_template: "{{ not is_state(mediaplayer, 'playing') }}"
+                    then:
+                      - action: media_player.play_media
+                        metadata: {}
+                        data:
+                          media_content_type: tvshow
+                          media_content_id: >-
+                            plex://{"library_name": "TV", "show.title": "{{ show
+                            }}", "allow_multiple": 1 }
+                        target:
+                          entity_id: "{{ mediaplayer }}"
+                      - set_conversation_response: >-
+                          Playing the show {{ show }} on {{
+                          trigger.slots.mediaplayer }} now
+                        enabled: true
+                    else:
+                      - set_conversation_response: >-
+                          Playing the show {{ show }} on {{
+                          trigger.slots.mediaplayer }} now
+                        enabled: true
+            default:
+              - action: button.press
+                metadata: {}
+                data: {}
+                target:
+                  entity_id: button.the_archive_scan_clients
+                enabled: true
+              - action: media_player.play_media
+                continue_on_error: true
+                metadata: {}
+                data:
+                  media_content_type: tvshow
+                  media_content_id: >-
+                    plex://{"library_name": "TV", "show.title": "{{ show }}",
+                    "episode.unwatched": true, "allow_multiple": 1 }
+                target:
+                  entity_id: "{{ mediaplayer }}"
+              - delay:
+                  hours: 0
+                  minutes: 0
+                  seconds: 8
+              - if:
+                  - condition: template
+                    value_template: "{{ not is_state(mediaplayercontrol, 'playing') }}"
+                then:
+                  - action: media_player.play_media
+                    metadata: {}
+                    data:
+                      media_content_type: tvshow
+                      media_content_id: >-
+                        plex://{"library_name": "TV", "show.title": "{{ show
+                        }}", "allow_multiple": 1 }
+                    target:
+                      entity_id: "{{ mediaplayer }}"
+                  - set_conversation_response: >-
+                      Playing the show {{ show }} on {{
+                      trigger.slots.mediaplayer }} now
+                    enabled: true
+                else:
+                  - set_conversation_response: >-
+                      Playing the show {{ show }} on {{
+                      trigger.slots.mediaplayer }} now
+                    enabled: true
+      - conditions:
+          - condition: trigger
+            id:
+              - streamunwatchednoplayer
+        sequence:
+          - choose:
+              - conditions:
+                  - condition: template
+                    value_template: "{{ area == 'office' }}"
+                    alias: Play on Desktop
+                sequence:
+                  - target:
+                      entity_id: button.the_archive_scan_clients
+                    data: {}
+                    action: button.press
+                  - action: media_player.play_media
+                    continue_on_error: true
+                    metadata: {}
+                    data:
+                      media_content_type: tvshow
+                      media_content_id: >-
+                        plex://{"library_name": "TV", "show.title": "{{ show
+                        }}", "episode.unwatched": true, "allow_multiple": 1 }
+                    target:
+                      entity_id: media_player.plex_desktop
+                  - delay:
+                      hours: 0
+                      minutes: 0
+                      seconds: 6
+                      milliseconds: 0
+                  - if:
+                      - condition: template
+                        value_template: >-
+                          {{ not is_state('media_player.plex_desktop',
+                          'playing') }}
+                    then:
+                      - action: media_player.play_media
+                        metadata: {}
+                        data:
+                          media_content_type: tvshow
+                          media_content_id: >-
+                            plex://{"library_name": "TV", "show.title": "{{ show
+                            }}", "allow_multiple": 1 }
+                        target:
+                          entity_id: media_player.plex_desktop
+                      - set_conversation_response: Playing the show {{ show }} on the computer
+                        enabled: true
+                    else:
+                      - set_conversation_response: Playing the show {{ show }} on the computer
+                        enabled: true
+              - conditions:
+                  - alias: Play in Living Room
+                    condition: template
+                    value_template: "{{ area == 'living_room' }}"
+                sequence:
+                  - target:
+                      entity_id: button.the_archive_scan_clients
+                    data: {}
+                    action: button.press
+                  - action: media_player.play_media
+                    continue_on_error: true
+                    metadata: {}
+                    data:
+                      media_content_type: tvshow
+                      media_content_id: >-
+                        plex://{"library_name": "TV", "show.title": "{{ show
+                        }}", "episode.unwatched": true, "allow_multiple": 1 }
+                    target:
+                      entity_id: media_player.plex_for_roku_tv
+                  - delay:
+                      hours: 0
+                      minutes: 0
+                      seconds: 6
+                      milliseconds: 0
+                  - if:
+                      - condition: template
+                        value_template: >-
+                          {{ not is_state('media_player.plex_for_roku_tv',
+                          'playing') }}
+                    then:
+                      - action: media_player.play_media
+                        metadata: {}
+                        data:
+                          media_content_type: tvshow
+                          media_content_id: >-
+                            plex://{"library_name": "TV", "show.title": "{{ show
+                            }}", "allow_multiple": 1 }
+                        target:
+                          entity_id: media_player.plex_for_roku_tv
+                      - set_conversation_response: Playing the show {{ show }} on the Roku TV
+                        enabled: true
+                    else:
+                      - set_conversation_response: Playing the show {{ show }} on the Roku TV
+                        enabled: true
+                alias: Play in Living Room
+              - conditions:
+                  - alias: Play in Bedroom
+                    condition: template
+                    value_template: "{{ area == 'bedroom' }}"
+                sequence:
+                  - target:
+                      entity_id: button.the_archive_scan_clients
+                    data: {}
+                    action: button.press
+                  - action: media_player.play_media
+                    continue_on_error: true
+                    metadata: {}
+                    data:
+                      media_content_type: tvshow
+                      media_content_id: >-
+                        plex://{"library_name": "TV", "show.title": "{{ show
+                        }}", "episode.unwatched": true, "allow_multiple": 1 }
+                    target:
+                      entity_id: media_player.bedroom_tv_uni
+                  - delay:
+                      hours: 0
+                      minutes: 0
+                      seconds: 6
+                      milliseconds: 0
+                  - if:
+                      - condition: template
+                        value_template: >-
+                          {{ not is_state('media_player.bedroom_tv_uni',
+                          'playing') }}
+                    then:
+                      - action: media_player.play_media
+                        metadata: {}
+                        data:
+                          media_content_type: tvshow
+                          media_content_id: >-
+                            plex://{"library_name": "TV", "show.title": "{{ show
+                            }}", "allow_multiple": 1 }
+                        target:
+                          entity_id: media_player.bedroom_tv_uni
+                      - set_conversation_response: Playing the show {{ show }} on the bedroom TV
+                        enabled: true
+                    else:
+                      - set_conversation_response: Playing the show {{ show }} on the bedroom TV
+                        enabled: true
+                alias: Play in Bedroom
+            default:
+              - set_conversation_response: >-
+                  You will need to say the command again with the specific
+                  device you want media to play on. 
+      - conditions:
+          - condition: trigger
+            id:
+              - streammovienoplayer
+        sequence:
+          - choose:
+              - conditions:
+                  - condition: template
+                    value_template: "{{ area == 'office' }}"
+                    alias: Play on Desktop
+                sequence:
+                  - target:
+                      entity_id: button.the_archive_scan_clients
+                    data: {}
+                    action: button.press
+                  - target:
+                      entity_id: media_player.plex_desktop
+                    data:
+                      media_content_type: movie
+                      media_content_id: >-
+                        plex://{"library_name": "Movies", "title": "{{ movie }}"
+                        }
+                    action: media_player.play_media
+                    continue_on_error: true
+                  - set_conversation_response: Now playing {{ movie }} on the computer.
+              - conditions:
+                  - alias: Play in Living Room
+                    condition: template
+                    value_template: "{{ area == 'living_room' }}"
+                sequence:
+                  - target:
+                      entity_id: button.the_archive_scan_clients
+                    data: {}
+                    action: button.press
+                  - target:
+                      entity_id: media_player.plex_for_roku_tv
+                    data:
+                      media_content_type: movie
+                      media_content_id: >-
+                        plex://{"library_name": "Movies", "title": "{{ movie }}"
+                        }
+                    action: media_player.play_media
+                    continue_on_error: true
+                  - set_conversation_response: Now playing {{ movie }} on the Roku TV.
+                alias: Play in Living Room
+              - conditions:
+                  - alias: Play in Bedroom
+                    condition: template
+                    value_template: "{{ area == 'bedroom' }}"
+                sequence:
+                  - target:
+                      entity_id: button.the_archive_scan_clients
+                    data: {}
+                    action: button.press
+                  - target:
+                      entity_id: media_player.bedroom_tv_uni
+                    data:
+                      media_content_type: movie
+                      media_content_id: >-
+                        plex://{"library_name": "Movies", "title": "{{ movie }}"
+                        }
+                    action: media_player.play_media
+                    continue_on_error: true
+                  - set_conversation_response: Now playing {{ movie }} on the Bedroom TV.
+                alias: Play in Bedroom
+            default:
+              - set_conversation_response: >-
+                  You will need to say the command again with the specific
+                  device you want media to play on. 
+      - conditions:
+          - condition: trigger
+            id:
+              - streamspecificepisodenoplayer
+        sequence:
+          - choose:
+              - conditions:
+                  - condition: template
+                    value_template: "{{ area == 'office' }}"
+                    alias: Play on Desktop
+                sequence:
+                  - target:
+                      entity_id: button.the_archive_scan_clients
+                    data: {}
+                    action: button.press
+                  - target:
+                      entity_id: media_player.plex_desktop
+                    data:
+                      media_content_type: tvshow
+                      media_content_id: >-
+                        plex://{"library_name": "TV", "show.title": "{{ show
+                        }}", "season_number": "{{ trigger.slots.season }}",
+                        "episode_number": "{{ trigger.slots.episode }}" }
+                    action: media_player.play_media
+                  - set_conversation_response: Playing the show {{ show }} on the computer
+                    enabled: true
+              - conditions:
+                  - condition: template
+                    value_template: "{{ area == 'living_room' }}"
+                    alias: Play in Living Room
+                sequence:
+                  - target:
+                      entity_id: button.the_archive_scan_clients
+                    data: {}
+                    action: button.press
+                  - target:
+                      entity_id: media_player.plex_for_roku_tv
+                    data:
+                      media_content_type: tvshow
+                      media_content_id: >-
+                        plex://{"library_name": "TV", "show.title": "{{ show
+                        }}", "season_number": "{{ trigger.slots.season }}",
+                        "episode_number": "{{ trigger.slots.episode }}" }
+                    action: media_player.play_media
+                  - set_conversation_response: Playing the show {{ show }} on the Roku TV
+                    enabled: true
+                alias: Play in Living Room
+              - conditions:
+                  - condition: template
+                    value_template: "{{ area == 'bedroom' }}"
+                    alias: Play in Bedroom
+                sequence:
+                  - target:
+                      entity_id: button.the_archive_scan_clients
+                    data: {}
+                    action: button.press
+                  - target:
+                      entity_id: media_player.bedroom_tv_uni
+                    data:
+                      media_content_type: tvshow
+                      media_content_id: >-
+                        plex://{"library_name": "TV", "show.title": "{{ show
+                        }}", "season_number": "{{ trigger.slots.season }}",
+                        "episode_number": "{{ trigger.slots.episode }}" }
+                    action: media_player.play_media
+                  - set_conversation_response: Playing the show {{ show }} on the Roku TV
+                    enabled: true
+                alias: Play in Bedroom
+            default:
+              - set_conversation_response: >-
+                  You will need to say the command again with the specific
+                  device you want media to play on. 
+      - conditions:
+          - condition: trigger
+            id:
+              - media-pause
+        sequence:
+          - choose:
+              - conditions:
+                  - alias: Pause TV Command
+                    condition: template
+                    value_template: >-
+                      {{ trigger.slots.mediaplayer == 'tv' or
+                      trigger.slots.mediaplayer == 'TV' or
+                      trigger.slots.mediaplayer == 'Tv' }}
+                sequence:
+                  - choose:
+                      - conditions:
+                          - condition: template
+                            value_template: "{{ area == 'bedroom' }}"
+                            alias: Play in Bedroom
+                        sequence:
+                          - target:
+                              entity_id: media_player.jukebox
+                            data: {}
+                            action: media_player.media_pause
+                            continue_on_error: true
+                          - set_conversation_response: "Pausing the playback now. "
+                      - conditions:
+                          - alias: Play in Living Room
+                            condition: template
+                            value_template: "{{ area == 'living_room' }}"
+                        sequence:
+                          - target:
+                              entity_id: media_player.roku_tv
+                            data: {}
+                            action: media_player.media_pause
+                            continue_on_error: true
+                          - set_conversation_response: "Pausing the playback now. "
+                        alias: Play in Living Room
+            default:
+              - target:
+                  entity_id: "{{ mediaplayercontrol }}"
+                data: {}
+                action: media_player.media_pause
+                continue_on_error: true
+              - set_conversation_response: "Pausing the playback now. "
+      - conditions:
+          - condition: trigger
+            id:
+              - media-stop
+        sequence:
+          - choose:
+              - conditions:
+                  - alias: Pause TV Command
+                    condition: template
+                    value_template: >-
+                      {{ trigger.slots.mediaplayer == 'tv' or
+                      trigger.slots.mediaplayer == 'TV' or
+                      trigger.slots.mediaplayer == 'Tv' }}
+                sequence:
+                  - choose:
+                      - conditions:
+                          - condition: template
+                            value_template: "{{ area == 'bedroom' }}"
+                            alias: Play in Bedroom
+                        sequence:
+                          - target:
+                              entity_id: media_player.jukebox
+                            data: {}
+                            action: media_player.media_stop
+                            continue_on_error: true
+                          - set_conversation_response: "Stopping the playback now. "
+              - conditions:
+                  - alias: Play in Living Room
+                    condition: template
+                    value_template: "{{ area == 'living_room' }}"
+                sequence:
+                  - target:
+                      entity_id: media_player.roku_tv
+                    data: {}
+                    action: media_player.media_pause
+                    continue_on_error: true
+                  - set_conversation_response: "Pausing the playback now. "
+            default:
+              - target:
+                  entity_id: "{{ mediaplayercontrol }}"
+                data: {}
+                action: media_player.media_stop
+                continue_on_error: true
+              - set_conversation_response: "Stopping the playback now. "
+      - conditions:
+          - condition: trigger
+            id:
+              - media-start
+        sequence:
+          - choose:
+              - conditions:
+                  - alias: Pause TV Command
+                    condition: template
+                    value_template: >-
+                      {{ trigger.slots.mediaplayer == 'tv' or
+                      trigger.slots.mediaplayer == 'TV' or
+                      trigger.slots.mediaplayer == 'Tv' }}
+                sequence:
+                  - choose:
+                      - conditions:
+                          - condition: template
+                            value_template: "{{ area == 'bedroom' }}"
+                            alias: Play in Bedroom
+                        sequence:
+                          - target:
+                              entity_id: media_player.jukebox
+                            data: {}
+                            action: media_player.media_play
+                            continue_on_error: true
+                      - conditions:
+                          - alias: Play in Living Room
+                            condition: template
+                            value_template: "{{ area == 'living_room' }}"
+                        sequence:
+                          - target:
+                              entity_id: media_player.roku_tv
+                            data: {}
+                            action: media_player.media_play
+                            continue_on_error: true
+            default:
+              - target:
+                  entity_id: "{{ mediaplayercontrol }}"
+                data: {}
+                action: media_player.media_play
+                continue_on_error: true
+      - conditions:
+          - condition: trigger
+            id:
+              - streamrandomepisodenoplayer
+        sequence:
+          - choose:
+              - conditions:
+                  - condition: template
+                    value_template: "{{ area == 'office' }}"
+                    alias: Play on Desktop
+                sequence:
+                  - target:
+                      entity_id: button.the_archive_scan_clients
+                    data: {}
+                    action: button.press
+                  - target:
+                      entity_id: media_player.plex_desktop
+                    data:
+                      media_content_type: tvshow
+                      media_content_id: >-
+                        plex://{"library_name": "TV", "show.title": "{{ show
+                        }}", "shuffle": "1", "allow_multiple": 1 }
+                    action: media_player.play_media
+                  - set_conversation_response: Playing the show {{ show }} on the computer
+                    enabled: true
+              - conditions:
+                  - condition: template
+                    value_template: "{{ area == 'living_room' }}"
+                    alias: Play in Living Room
+                sequence:
+                  - target:
+                      entity_id: button.the_archive_scan_clients
+                    data: {}
+                    action: button.press
+                  - target:
+                      entity_id: media_player.plex_for_roku_tv
+                    data:
+                      media_content_type: tvshow
+                      media_content_id: >-
+                        plex://{"library_name": "TV", "show.title": "{{ show
+                        }}", "shuffle": "1", "allow_multiple": 1 }
+                    action: media_player.play_media
+                  - set_conversation_response: Playing the show {{ show }} on the Roku TV
+                    enabled: true
+                alias: Play in Living Room
+              - conditions:
+                  - condition: template
+                    value_template: "{{ area == 'bedroom' }}"
+                    alias: Play in Bedroom
+                sequence:
+                  - target:
+                      entity_id: button.the_archive_scan_clients
+                    data: {}
+                    action: button.press
+                  - target:
+                      entity_id: media_player.bedroom_tv_uni
+                    data:
+                      media_content_type: tvshow
+                      media_content_id: >-
+                        plex://{"library_name": "TV", "show.title": "{{ show
+                        }}", "shuffle": "1", "allow_multiple": 1 }
+                    action: media_player.play_media
+                  - set_conversation_response: Playing the show {{ show }} on the Roku TV
+                    enabled: true
+                alias: Play in Bedroom
+            default:
+              - set_conversation_response: >-
+                  You will need to say the command again with the specific
+                  device you want media to play on. 
+      - conditions:
+          - condition: trigger
+            id:
+              - streamrandomseasonnoplayer
+        sequence:
+          - choose:
+              - conditions:
+                  - condition: template
+                    value_template: "{{ area == 'office' }}"
+                    alias: Play on Desktop
+                sequence:
+                  - target:
+                      entity_id: button.the_archive_scan_clients
+                    data: {}
+                    action: button.press
+                  - target:
+                      entity_id: media_player.plex_desktop
+                    data:
+                      media_content_type: tvshow
+                      media_content_id: >-
+                        plex://{"library_name": "TV", "show.title": "{{ show
+                        }}", "season_number": "{{ trigger.slots.season }}",
+                        "shuffle": "1", "allow_multiple": 1 }
+                    action: media_player.play_media
+                  - set_conversation_response: Playing the show {{ show }} on the computer
+                    enabled: true
+              - conditions:
+                  - condition: template
+                    value_template: "{{ area == 'living_room' }}"
+                    alias: Play in Living Room
+                sequence:
+                  - target:
+                      entity_id: button.the_archive_scan_clients
+                    data: {}
+                    action: button.press
+                  - target:
+                      entity_id: media_player.plex_for_roku_tv
+                    data:
+                      media_content_type: tvshow
+                      media_content_id: >-
+                        plex://{"library_name": "TV", "show.title": "{{ show
+                        }}", "season_number": "{{ trigger.slots.season }}",
+                        "shuffle": "1", "allow_multiple": 1 }
+                    action: media_player.play_media
+                  - set_conversation_response: Playing the show {{ show }} on the Roku TV
+                    enabled: true
+                alias: Play in Living Room
+              - conditions:
+                  - condition: template
+                    value_template: "{{ area == 'bedroom' }}"
+                    alias: Play in Bedroom
+                sequence:
+                  - target:
+                      entity_id: button.the_archive_scan_clients
+                    data: {}
+                    action: button.press
+                  - target:
+                      entity_id: media_player.bedroom_tv_uni
+                    data:
+                      media_content_type: tvshow
+                      media_content_id: >-
+                        plex://{"library_name": "TV", "show.title": "{{ show
+                        }}", "season_number": "{{ trigger.slots.season }}",
+                        "shuffle": "1", "allow_multiple": 1 }
+                    action: media_player.play_media
+                  - set_conversation_response: Playing the show {{ show }} on the Roku TV
+                    enabled: true
+                alias: Play in Bedroom
+            default:
+              - set_conversation_response: >-
+                  You will need to say the command again with the specific
+                  device you want media to play on. 
+      - conditions:
+          - condition: trigger
+            id:
+              - streamplaylistnoplayer
+        sequence:
+          - choose:
+              - conditions:
+                  - condition: template
+                    value_template: "{{ area == 'office' }}"
+                    alias: Play on Desktop
+                sequence:
+                  - target:
+                      entity_id: button.the_archive_scan_clients
+                    data: {}
+                    action: button.press
+                  - target:
+                      entity_id: media_player.plex_desktop
+                    data:
+                      media_content_type: playlist
+                      media_content_id: >-
+                        plex://*Add Server ID Here*/{{
+                        playlist }}?resume=0&shuffle=1
+                    action: media_player.play_media
+                  - set_conversation_response: >-
+                      Playing the {{ trigger.slots.playlist }} playlist on the
+                      computer
+                    enabled: true
+              - conditions:
+                  - condition: template
+                    value_template: "{{ area == 'living_room' }}"
+                    alias: Play in Living Room
+                sequence:
+                  - target:
+                      entity_id: button.the_archive_scan_clients
+                    data: {}
+                    action: button.press
+                  - target:
+                      entity_id: media_player.plex_for_roku_tv
+                    data:
+                      media_content_type: playlist
+                      media_content_id: >-
+                        plex://*Add Server ID Here*/{{
+                        playlist }}?resume=0&shuffle=1
+                    action: media_player.play_media
+                  - set_conversation_response: >-
+                      Playing the {{ trigger.slots.playlist }} Playlist on the
+                      Roku TV
+                    enabled: true
+                alias: Play in Living Room
+              - conditions:
+                  - condition: template
+                    value_template: "{{ area == 'bedroom' }}"
+                    alias: Play in Bedroom
+                sequence:
+                  - target:
+                      entity_id: button.the_archive_scan_clients
+                    data: {}
+                    action: button.press
+                  - target:
+                      entity_id: media_player.bedroom_tv_uni
+                    data:
+                      media_content_type: playlist
+                      media_content_id: >-
+                        plex://*Add Server ID Here*/{{
+                        playlist }}?resume=0&shuffle=1
+                    action: media_player.play_media
+                  - set_conversation_response: >-
+                      Playing the {{ trigger.slots.playlist }} playlist on the
+                      Bedroom TV
+                    enabled: true
+                alias: Play in Bedroom
+            default:
+              - set_conversation_response: >-
+                  You will need to say the command again with the specific
+                  device you want media to play on. 
+      - conditions:
+          - condition: trigger
+            id:
+              - streamcurrentbingenoplayer
+        sequence:
+          - choose:
+              - conditions:
+                  - condition: template
+                    value_template: "{{ area == 'office' }}"
+                    alias: Play on Desktop
+                sequence:
+                  - target:
+                      entity_id: button.the_archive_scan_clients
+                    data: {}
+                    action: button.press
+                  - target:
+                      entity_id: media_player.plex_desktop
+                    data:
+                      media_content_type: playlist
+                      media_content_id: plex://*Add Server ID Here*/1643426
+                    action: media_player.play_media
+                  - set_conversation_response: Playing your current binge on the computer
+                    enabled: true
+              - conditions:
+                  - condition: template
+                    value_template: "{{ area == 'living_room' }}"
+                    alias: Play in Living Room
+                sequence:
+                  - target:
+                      entity_id: button.the_archive_scan_clients
+                    data: {}
+                    action: button.press
+                  - target:
+                      entity_id: media_player.plex_for_roku_tv
+                    data:
+                      media_content_type: playlist
+                      media_content_id: plex://*Add Server ID Here*/1643426
+                    action: media_player.play_media
+                  - set_conversation_response: Playing your current binge on the Roku TV
+                    enabled: true
+                alias: Play in Living Room
+              - conditions:
+                  - condition: template
+                    value_template: "{{ area == 'bedroom' }}"
+                    alias: Play in Bedroom
+                sequence:
+                  - target:
+                      entity_id: button.the_archive_scan_clients
+                    data: {}
+                    action: button.press
+                  - target:
+                      entity_id: media_player.bedroom_tv_uni
+                    data:
+                      media_content_type: playlist
+                      media_content_id: plex://*Add Server ID Here*/1643426
+                    action: media_player.play_media
+                  - set_conversation_response: Playing your current binge on the Roku TV
+                    enabled: true
+                alias: Play in Bedroom
+            default:
+              - set_conversation_response: >-
+                  You will need to say the command again with the specific
+                  device you want media to play on. 
+mode: parallel
+max: 10
