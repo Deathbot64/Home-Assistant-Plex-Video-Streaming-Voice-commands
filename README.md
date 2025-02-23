@@ -39,3 +39,8 @@ mediaplayer: This variable grabs the requested player and uses the specific play
 
 mediaplayercontrol: I use to control the device the media is playing on, not the plex player. You may not need this but I found this to be useful. 
 
+Getting the Server ID and Playlist ID for playlist playback:
+
+Easiest Way I have found to get both IDs is to go to your Plex server on your browser and open the playlist you want the ID for. In the second below you will see two red boxes in the URL. The first one (after server in the URL) is the Server ID, everything between the two slashes will need to be grabbed. The playlist ID is the second red box. Any number after the 2F is the playlist ID.
+
+![Screenshot 2025-02-23 094131](https://github.com/user-attachments/assets/1131430c-a762-4d57-8610-68d69b03bd3a)
