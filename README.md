@@ -35,9 +35,9 @@ movie and movietitle: Same as the show and title variables but for movies.
 
 playlist: This variable is used to get the playlist name and use the playlist ID in the automation.
 
-mediaplayer: This variable grabs the requested player and uses the specific player ID for the automation
+mediaplayer: This variable grabs the requested player and uses the specific player ID for the automation. This will be the device/player ID that shows up in the Plex Integration. 
 
-mediaplayercontrol: I use to control the device the media is playing on, not the plex player. You may not need this but I found this to be useful. 
+mediaplayercontrol: I use to control the device the media is playing on, not the plex player. You may not need this but I found this to be useful. This would be the device/player ID of the actual device its playing on (i.e. playing a on Roku TV would use the Roku TV integration instead of the Plex integration).
 
 Getting the Server ID and Playlist ID for playlist playback:
 
